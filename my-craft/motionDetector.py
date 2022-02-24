@@ -1,5 +1,4 @@
-import cv2, time, pandas
-from cv2 import imwrite
+import cv2
  
 # Assigning our static_back to None
 static_back = None
@@ -14,6 +13,8 @@ ssc = 0;
 while True:
     # Reading frame(image) from video
     check, frame = video.read()
+
+    print(type(frame))
  
     # Converting color image to gray_scale image
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
