@@ -7,6 +7,9 @@ static_back = None
 # Capturing video
 video = cv2.VideoCapture(0)
 
+# screenshot counter
+ssc = 0;
+
 # Infinite while loop to treat stack of image as video
 while True:
     # Reading frame(image) from video
@@ -50,6 +53,11 @@ while True:
     # if q is pressed, then exit
     if key == ord('q'):
         break
+    
+    if key == ord('s'):
+        ssc += 1;
+        cv2.imwrite(f"screenshots/screenshot{ssc}.png", frame)
+
 
 video.release()
 cv2.destroyAllWindows()
