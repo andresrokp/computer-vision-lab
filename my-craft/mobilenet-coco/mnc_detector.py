@@ -24,11 +24,11 @@ cnn = cv2.dnn_DetectionModel(myvars.weights, myvars.config);
 print(cnn)
 
 cnn.setInputSize(447, 797);
-# cnn.setInputScale(1.0/127.5);
+cnn.setInputScale(1.0/127.5);
 # cnn.setInputMean((127.5, 127.5, 127.5));
 cnn.setInputSwapRB(True)
 
-classId, confs, boxes = cnn.detect(img, confThreshold=0.5)
+classId, confs, boxes = cnn.detect(img, confThreshold=0.3)
 
 detectResult = zip(classId.flatten(), confs.flatten(),boxes)
 print(detectResult)
@@ -36,6 +36,13 @@ print(detectResult)
 
 for classId_x, conf_x, box_x in detectResult:
     print (classId_x, conf_x, box_x)
+    cv2.rectangle(img,box_x,color=(0,255,0),thickness=2)
+    cv2.putText(img
+                ,f'{CocoClasses[classId_x-1]} @ {conf_x}'
+                ,(box_x[0], box_x[1]-10)
+                , cv2.FONT_HERSHEY_SIMPLEX, 0.2, (0,255,0), 2
+                );
+
 
 cv2.imshow("the image", img)
 
