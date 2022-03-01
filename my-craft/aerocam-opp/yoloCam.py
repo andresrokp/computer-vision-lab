@@ -1,13 +1,11 @@
 import cv2
 import myvars
 import math
+import datetime
 
 print("-\n--\n---\n----\n-----\n----\n---\n--\n-")
 
-
-
-def modo1():
-    
+def detectObj(frame):    
     classId, confs, boxes = cnn.detect(frame, confThreshold=0.3)
     print(type(classId))
     # if len(classId()) is not 0:
@@ -23,12 +21,11 @@ def modo1():
                     , cv2.FONT_HERSHEY_SIMPLEX, 0.2, (0,255,0), 2
                     );
     
-    cv2.imshow("sec cam video", frame)
+    cv2.imshow("capture", frame)
 
-# def modo2():
-#     if key == ord('q'):
-#         cv2.writeOpticalFlow
+    return frame
 
+    
 CocoClasses = ['person','bicycle','car','motorbike','aeroplane','bus','train',
             'truck','boat','traffic light','fire hydrant','stop sign',
             'parking meter','bench','bird','cat','dog','horse','sheep','cow',
@@ -45,12 +42,11 @@ CocoClasses = ['person','bicycle','car','motorbike','aeroplane','bus','train',
 
 video = cv2.VideoCapture()
 video.open(myvars.url)
-_,capture = video.read()
-capture = cv2.resize(capture, (0,0), fx=0.2, fy=0.2)
-width = capture.shape[0]
-height = capture.shape[1]
-frame = capture
-
+_,frame = video.read()
+scale = 0.2
+# frame = cv2.resize(frame, (0,0), fx=scale, fy=scale)
+width = frame.shape[0]
+height = frame.shape[1]
 
 cnn = cv2.dnn_DetectionModel(myvars.weights, myvars.config);
 cnn.setInputSize(width, height);
@@ -58,24 +54,19 @@ cnn.setInputScale(1.0/127.5);
 cnn.setInputMean(120);
 cnn.setInputSwapRB(True)
 
-ssc = 0
-
-ssc += 1;
-cv2.imwrite(f"screenshots/screenshot{ssc}.png", capture)
-
 while True:
     _, frame = video.read()
-    frame = cv2.resize(frame, (0,0), fx=0.2, fy=0.2)
+    frame = cv2.resize(frame, (0,0), fx=scale, fy=scale)
     frame = frame[math.floor(0.1*width):math.floor(0.8*width), math.floor(0.1*height):math.floor(0.7*height)]
-    
-    modo1()
+    print(frame.shape)
+    cv2.imshow("video frames", frame)
     key = cv2.waitKey(1)
-    
     if key == ord('q'):
         break
-
-    
-
+    if key == ord('s'):
+        date_time = datetime.datetime.now().strftime("CAP-%d%m%Y-%H-%M-%S")
+        detectedCapture = detectObj(frame)
+        cv2.imwrite(f"screens/{date_time}.png", detectedCapture)
 
 video.release()
 cv2.destroyAllWindows()
