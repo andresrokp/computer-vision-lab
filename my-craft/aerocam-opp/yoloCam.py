@@ -1,5 +1,6 @@
 import cv2
 import myvars
+import math
 
 print("-\n--\n---\n----\n-----\n----\n---\n--\n-")
 
@@ -25,43 +26,36 @@ width = capture.shape[0]
 height = capture.shape[1]
 frame = capture
 
-
 cnn = cv2.dnn_DetectionModel(myvars.weights, myvars.config);
-
-
-# while True:
-#     _, frame = video.read()
-#     frame = cv2.resize(frame, (0,0), fx=0.4, fy=0.4)
-#     cv2.imshow("sec cam video", frame)
-#     key = cv2.waitKey(1)
-#     if key == ord('q'):
-#         break
-
 cnn.setInputSize(width, height);
 cnn.setInputScale(1.0/127.5);
 cnn.setInputMean(120);
 cnn.setInputSwapRB(True)
 
-classId, confs, boxes = cnn.detect(capture, confThreshold=0.3)
+while True:
+    _, frame = video.read()
+    frame = cv2.resize(frame, (0,0), fx=0.4, fy=0.4)
+    # frame = frame[math.floor(0.1*width):math.floor(0.8*width), math.floor(0.1*height):math.floor(0.7*height)]
+    cv2.imshow("sec cam video", frame)
+    
+    classId, confs, boxes = cnn.detect(capture, confThreshold=0.3)
+    print(type(classId))
+    # if len(classId()) is not 0:
+    detectResult = zip(classId.flatten(), confs.flatten(),boxes)
+    print(detectResult)
 
-detectResult = zip(classId.flatten(), confs.flatten(),boxes)
-print(detectResult)
+    for classId_x, conf_x, box_x in detectResult:
+        print (classId_x, conf_x, box_x)
+        cv2.rectangle(capture,box_x,color=(0,255,0),thickness=2)
+        cv2.putText(frame
+                    ,f'{CocoClasses[classId_x-1]} @ {conf_x}'
+                    ,(box_x[0], box_x[1]-10)
+                    , cv2.FONT_HERSHEY_SIMPLEX, 0.2, (0,255,0), 2
+                    );
 
-
-for classId_x, conf_x, box_x in detectResult:
-    print (classId_x, conf_x, box_x)
-    cv2.rectangle(capture,box_x,color=(0,255,0),thickness=2)
-    cv2.putText(frame
-                ,f'{CocoClasses[classId_x-1]} @ {conf_x}'
-                ,(box_x[0], box_x[1]-10)
-                , cv2.FONT_HERSHEY_SIMPLEX, 0.2, (0,255,0), 2
-                );
-
-cv2.imshow("capture termoformado", frame)
-key = cv2.waitKey(0)
-
-# if key == ord('q'):
-#     break
+    key = cv2.waitKey(1)
+    if key == ord('q'):
+        break
 
 video.release()
 cv2.destroyAllWindows()
