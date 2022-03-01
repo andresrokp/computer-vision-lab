@@ -18,14 +18,14 @@ CocoClasses = ['person','bicycle','car','motorbike','aeroplane','bus','train',
             'oven','toaster','sink','refrigerator','book','clock','vase',
             'scissors','teddy bear','hair drier','toothbrush'];
 
-img = cv2.imread(myvars.cocoImg)
+img = cv2.imread(myvars.testImg)
 print(img.shape)
 cnn = cv2.dnn_DetectionModel(myvars.weights, myvars.config);
 print(cnn)
 
 cnn.setInputSize(447, 797);
 cnn.setInputScale(1.0/127.5);
-# cnn.setInputMean((127.5, 127.5, 127.5));
+cnn.setInputMean(1);
 cnn.setInputSwapRB(True)
 
 classId, confs, boxes = cnn.detect(img, confThreshold=0.3)
