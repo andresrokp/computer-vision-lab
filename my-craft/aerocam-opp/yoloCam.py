@@ -57,19 +57,20 @@ cnn.setInputSwapRB(True)
 
 while True:
     _, frame = video.read()
-    frame = cv2.resize(frame, (0,0), fx=scale, fy=scale)
-    frame = frame[math.floor(0.1*width):math.floor(0.8*width), math.floor(0.1*height):math.floor(0.7*height)]
-    print(frame.shape)
-    cv2.imshow("video frames", frame)
-    key = cv2.waitKey(1)
-    if key == ord('q'):
-        break
-    if key == ord('s'):
-        date_time = datetime.datetime.now().strftime("CAP-%d%m%Y-%H-%M-%S")
-        detectObj(frame)
-        x = threading.Thread(target=detectObj, args=(frame))
-        detectedCapture = x.start()
-        cv2.imwrite(f"screens/{date_time}.png", detectedCapture)
+    if frame:
+        frame = cv2.resize(frame, (0,0), fx=scale, fy=scale)
+        frame = frame[math.floor(0.1*width):math.floor(0.8*width), math.floor(0.1*height):math.floor(0.7*height)]
+        print(frame.shape)
+        cv2.imshow("video frames", frame)
+        key = cv2.waitKey(1)
+        if key == ord('q'):
+            break
+        if key == ord('s'):
+            date_time = datetime.datetime.now().strftime("CAP-%d%m%Y-%H-%M-%S")
+            detectObj(frame)
+            x = threading.Thread(target=detectObj, args=(frame))
+            detectedCapture = x.start()
+            cv2.imwrite(f"screens/{date_time}.png", detectedCapture)
 
 video.release()
 cv2.destroyAllWindows()
