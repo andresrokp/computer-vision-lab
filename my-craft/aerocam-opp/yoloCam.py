@@ -2,6 +2,7 @@ import cv2
 import myvars
 import math
 import datetime
+import threading
 
 print("-\n--\n---\n----\n-----\n----\n---\n--\n-")
 
@@ -43,8 +44,8 @@ CocoClasses = ['person','bicycle','car','motorbike','aeroplane','bus','train',
 video = cv2.VideoCapture()
 video.open(myvars.url)
 _,frame = video.read()
-scale = 0.2
-# frame = cv2.resize(frame, (0,0), fx=scale, fy=scale)
+scale = 0.4
+frame = cv2.resize(frame, (0,0), fx=scale, fy=scale)
 width = frame.shape[0]
 height = frame.shape[1]
 
@@ -65,7 +66,9 @@ while True:
         break
     if key == ord('s'):
         date_time = datetime.datetime.now().strftime("CAP-%d%m%Y-%H-%M-%S")
-        detectedCapture = detectObj(frame)
+        detectObj(frame)
+        x = threading.Thread(target=detectObj, args=(frame))
+        detectedCapture = x.start()
         cv2.imwrite(f"screens/{date_time}.png", detectedCapture)
 
 video.release()
