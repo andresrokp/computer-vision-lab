@@ -6,27 +6,6 @@ import threading
 
 print("-\n--\n---\n----\n-----\n----\n---\n--\n-")
 
-def detectObj(frame):    
-    classId, confs, boxes = cnn.detect(frame, confThreshold=0.3)
-    print(type(classId))
-    # if len(classId()) is not 0:
-    detectResult = zip(classId.flatten(), confs.flatten(),boxes)
-    print(detectResult)
-
-    for classId_x, conf_x, box_x in detectResult:
-        print (classId_x, conf_x, box_x)
-        cv2.rectangle(frame,box_x,color=(0,255,0),thickness=2)
-        cv2.putText(frame
-                    ,f'{CocoClasses[classId_x-1]} @ {conf_x}'
-                    ,(box_x[0], box_x[1]-10)
-                    , cv2.FONT_HERSHEY_SIMPLEX, 0.2, (0,255,0), 2
-                    );
-    
-    cv2.imshow("capture", frame)
-
-    return frame
-
-    
 CocoClasses = ['person','bicycle','car','motorbike','aeroplane','bus','train',
             'truck','boat','traffic light','fire hydrant','stop sign',
             'parking meter','bench','bird','cat','dog','horse','sheep','cow',
@@ -40,6 +19,26 @@ CocoClasses = ['person','bicycle','car','motorbike','aeroplane','bus','train',
             'laptop','mouse','remote','keyboard','cell phone','microwave',
             'oven','toaster','sink','refrigerator','book','clock','vase',
             'scissors','teddy bear','hair drier','toothbrush'];
+
+def detectObj(frame):    
+    classId, confs, boxes = cnn.detect(frame, confThreshold=0.3)
+    detectResult = zip(classId.flatten(), confs.flatten(),boxes)
+    print(detectResult)
+    for classId_x, conf_x, box_x in detectResult:
+        print (CocoClasses[classId_x], conf_x, box_x)
+        cv2.rectangle(frame,box_x,color=(0,255,0),thickness=2)
+        cv2.putText(frame
+                    ,f'{CocoClasses[classId_x]} @ {conf_x}'
+                    ,(box_x[0], box_x[1]-10)
+                    , cv2.FONT_HERSHEY_SIMPLEX, 0.2, (0,255,0), 2
+                    );
+    
+    cv2.imshow("capture", frame)
+
+    return frame
+
+    
+
 
 video = cv2.VideoCapture()
 video.open(myvars.url)
@@ -57,20 +56,18 @@ cnn.setInputSwapRB(True)
 
 while True:
     _, frame = video.read()
-    if frame.any():
-        frame = cv2.resize(frame, (0,0), fx=scale, fy=scale)
-        frame = frame[math.floor(0.1*width):math.floor(0.8*width), math.floor(0.1*height):math.floor(0.7*height)]
-        print(frame.shape)
-        cv2.imshow("video frames", frame)
-        key = cv2.waitKey(1)
-        if key == ord('q'):
-            break
-        if key == ord('s'):
-            date_time = datetime.datetime.now().strftime("CAP-%d%m%Y-%H-%M-%S")
-            detectObj(frame)
-            # x = threading.Thread(target=detectObj, args=(frame))
-            # detectedCapture = x.start()
-            cv2.imwrite(f"screens/{date_time}.png", detectedCapture)
+    frame = cv2.resize(frame, (0,0), fx=scale, fy=scale)
+    frame = frame[math.floor(0.1*width):math.floor(0.6*width), math.floor(0.1*height):math.floor(0.5*height)]
+    # print(frame.shape)
+    cv2.imshow("video frames", frame)
+    key = cv2.waitKey(1)
+    if key == ord('q'):
+        break
+    if key == ord('s'):
+        date_time = datetime.datetime.now().strftime("CAP-%d%m%Y-%H-%M-%S")
+        # x = threading.Thread(target=detectObj, args=(frame))
+        # detectedCapture = x.start()
+        cv2.imwrite(f"screens/{date_time}.png", detectObj(frame))
 
 video.release()
 cv2.destroyAllWindows()
