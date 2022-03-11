@@ -67,7 +67,7 @@ while True:
         date_time = datetime.datetime.now().strftime("CAP-%d%m%Y-%H-%M-%S")
         # x = threading.Thread(target=detectObj, args=(frame))
         # detectedCapture = x.start()
-        cv2.imwrite(f"screens/{date_time}.png", detectObj(frame))
+        cv2.imwrite(f"screensYolo/{date_time}.png", detectObj(frame))
 
 video.release()
 cv2.destroyAllWindows()
