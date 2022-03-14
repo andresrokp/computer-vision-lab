@@ -1,5 +1,4 @@
 import os
-import random
 from shutil import copyfile
 import shutil
 

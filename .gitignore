@@ -3,7 +3,8 @@
 .env
 
 *myvars.py
-
+*.xml
+*.txt
 
 ### Images ###
 # JPEG
