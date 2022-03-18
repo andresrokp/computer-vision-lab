@@ -41,7 +41,7 @@ def detectObj(frame):
 
 
 video = cv2.VideoCapture()
-video.open(myvars.url)
+video.open(myvars.url1)
 _,frame = video.read()
 scale = 0.4
 frame = cv2.resize(frame, (0,0), fx=scale, fy=scale)
