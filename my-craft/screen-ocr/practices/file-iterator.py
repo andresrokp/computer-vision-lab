@@ -18,7 +18,7 @@ for file in os.listdir(path):
      filename = os.fsdecode(file)
      print('\n> filename: ',filename)
      
-     wholeScreen = cv2.imread(f'{mv.picspath}{filename}')
+     wholeScreen = cv2.imread(f'{mv.picspath}/{filename}')
      resized = cv2.resize(wholeScreen, (0,0), fx=0.5, fy=0.5)
      # cv2.imshow('resized', resized)
      
@@ -33,9 +33,15 @@ for file in os.listdir(path):
 
      match numScreenNumber:
           case '1103':
-               print('Caleffacción filas longitudinales')
+               print('Calefacción filas longitudinales')
           case '2003':
-               print('Vista general presión')
+               print('Visión general de parámetros de presión')
+          case '2002':
+               print('Visión general parámetros 3')
+          case '2007':
+               print('Tracción de lámina')
+          case '2301':
+               print('Diagramas de actuadores')
           case _:
                print('OTRA PANTALLA')
      
