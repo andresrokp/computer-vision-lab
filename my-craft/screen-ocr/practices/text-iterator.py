@@ -16,3 +16,4 @@ with open(f'{mv.textPath}\\pla test','r') as termoFile:
     for line in termoLines[0:-1]:
         data = line.split(': ')[1][0:-1]
         print(data)
+
