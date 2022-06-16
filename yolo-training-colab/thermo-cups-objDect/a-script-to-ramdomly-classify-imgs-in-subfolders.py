@@ -5,10 +5,10 @@ import random
 
 print("-\n--\n---\n----\n-----\n----\n---\n--\n-\n")
 
-inputDirName = 'oxxo_images_renamed'
+inputDirName = 'a-ton-of-images-i-BEGIN-with-now-RENAMED'
 trainRatio = 0.85
 validRatio = 0.10
-outputDirName = 'datasets'
+outputDirName = 'images-finally-CLASSIFIED-in-subfolders'
 
 
 if not os.path.exists(outputDirName):
