@@ -1,13 +1,22 @@
 import cv2
 import myvars
+import os
 
 print("-\n--\n---\n----\n-----\n------\n-------\n--------\n---------\n----------\n-----------\n------------\n-------------\n--------------\n-------------\n------------\n-----------\n----------\n---------\n--------\n-------\n------\n-----\n----\n---\n--\n-")
 
 classesList = ['monoTapon'];
-img = cv2.imread('Oxxo_27.jpg')
+configFilePath = f'{myvars.resultsPath}/custom-yolov4-detector.cfg';
+weightsFilePath = f'{myvars.resultsPath}/custom-yolov4-detector_best.weights';
+imgsFilesPath = myvars.imgsPath;
+
+imgFileNamesList = os.listdir(imgsFilesPath)[0:-1];
+
+print(imgFileNamesList);
+
+img = cv2.imread(f'{imgsFilesPath}/CAP-11032022-19-07-17.jpg')
 
 print(img.shape)
-cnn = cv2.dnn_DetectionModel(myvars.weights, myvars.config);
+cnn = cv2.dnn_DetectionModel(weightsFilePath, configFilePath);
 print(cnn)
 
 cnn.setInputSize(447, 797);
@@ -19,7 +28,7 @@ classId, confs, boxes = cnn.detect(img, confThreshold=0.3)
 
 print(len(classId))
 
-if len(classId) is not 0:
+if len(classId) != 0:
     detectResult = zip(classId.flatten(), confs.flatten(),boxes)
     print(detectResult)
 
