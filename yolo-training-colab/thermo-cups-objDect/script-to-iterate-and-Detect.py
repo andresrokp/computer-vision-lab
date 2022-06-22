@@ -10,7 +10,7 @@ configFilePath = f'{myvars.resultsPath}/custom-yolov4-detector.cfg';
 weightsFilePath = f'{myvars.resultsPath}/custom-yolov4-detector_best.weights';
 imgsFilesPath = myvars.imgsPath;
 
-imgFileNamesList = os.listdir(imgsFilesPath)[0:-1];
+imgFileNamesList = os.listdir(imgsFilesPath)[0:10];
 
 print(imgFileNamesList);
 
