@@ -3,7 +3,7 @@ import myvars
 import datetime
 
 video = cv2.VideoCapture()
-video.open(myvars.url1)
+video.open(myvars.url3)
 
 dateAndTime = datetime.datetime.now().strftime("CAP-%d%m%Y-%H-%M-%S")
 print(dateAndTime)
