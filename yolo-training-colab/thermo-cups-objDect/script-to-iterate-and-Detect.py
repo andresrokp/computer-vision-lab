@@ -9,7 +9,7 @@ print("-\n--\n---\n----\n-----\n------\n-------\n--------\n---------\n----------
 classesList = ['monoTapon'];
 configFilePath = f'{myvars.resultsPath}/custom-yolov4-detector.cfg';
 weightsFilePath = f'{myvars.resultsPath}/custom-yolov4-detector_best.weights';
-imgsFolderPath = myvars.imgsPath;
+imgsFolderPath = myvars.imgsPath; # OJO: a veces toma la carpeta de los Bads
 
 imgFileNamesList = os.listdir(imgsFolderPath)[:-1];
 
@@ -24,7 +24,7 @@ for imgName in imgFileNamesList:
     imgPath = f'{imgsFolderPath}/{imgName}';
     print("\n\n",imgName);
     img = cv2.imread(imgPath);
-    isGoodShoot = itmd.isGoodShoot(img);
+    isGoodShoot = True # itmd.isGoodShoot(img);
     
     if isGoodShoot:
         classId, confs, boxes = cnn.detect(img, confThreshold=0.3);
