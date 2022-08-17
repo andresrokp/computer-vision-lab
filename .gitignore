@@ -5,7 +5,7 @@
 *myvars.py
 *.xml
 *.txt
-*desktop.ini*
+*.ini
 
 ### Images ###
 # JPEG
